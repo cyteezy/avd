@@ -1,0 +1,725 @@
+{
+	"admin/overview": {
+		"title": "Overview",
+		"order": 10,
+		"action": {
+			"type": "template",
+			"path": "sercomm-overview/overview"
+		},
+		"depends": {
+			"acl": [ "luci-mod-sercomm-overview" ],
+			"uci": {
+				"wireless": true,
+				"system": true
+			}
+		}
+	},
+
+	"admin/internet": {
+		"title": "Internet",
+		"order": 30,
+		"action": {
+			"type": "firstchild",
+			"recurse": true
+		}
+	},
+
+		"admin/internet/firewall": {
+			"title": "Firewall",
+			"order": 10,
+			"action": {
+				"type": "alias",
+				"path": "admin/internet/firewall/general"
+			},
+			"depends": {
+				"acl": [ "luci-app-firewall" ],
+				"fs": { "/sbin/fw3": "executable" },
+				"uci": { "firewall": true }
+			}
+		},
+
+			"admin/internet/firewall/general": {
+				"title": "General Settings",
+				"order": 10,
+				"action": {
+					"type": "view",
+					"path": "sercomm-admin/firewall"
+				}
+			},
+
+			"admin/internet/firewall/dos": {
+				"title": "DoS",
+				"order": 20,
+				"action": {
+					"type": "view",
+					"path": "sercomm-admin/dos"
+				}
+			},
+
+		"admin/internet/mobile-internet": {
+			"title": "Mobile",
+			"order": 20,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/mobile-internet"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-mobile-internet" ],
+				"uci": {"mobile": true}
+			}
+		},
+
+		"admin/internet/mapping": {
+			"title": "Port mapping",
+			"order": 30,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/mapping"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-network-config", "luci-mod-sercomm-mapping" ],
+				"uci": { "firewall": true, "network": true }
+			}
+		},
+
+		"admin/internet/dmz": {
+			"title": "DMZ",
+			"order": 40,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/dmz"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-network-config", "luci-mod-sercomm-mapping" ],
+				"uci": { "firewall": true, "network": true }
+			}
+		},
+
+		"admin/internet/parental-control": {
+			"title": "Parental Control",
+			"order": 50,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/parental-control"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-parental-control" ],
+				"uci": {"firewall": true}
+			}
+		},
+
+                "admin/internet/iptables": {
+                        "title": "IP Tables",
+                        "order": 51,
+                        "action": {
+                                "type": "view", 
+                                "path": "sercomm-admin/iptables" 
+                        },
+                        "depends": {
+                                "acl": [ "luci-mod-sercomm-iptables" ],
+                                "uci": { "iptables": true }           
+                        }                                  
+                },  
+
+		"admin/internet/dns": {
+			"title": "DNS & DDNS",
+			"order": 60,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/dns_ddns"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-ddns" ],
+				"uci": { "ddns": true }
+			}
+		},
+
+		"admin/internet/upnp": {
+			"title": "UPnP",
+			"order": 70,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/upnp"
+			},
+			"depends": {
+				"acl": [ "luci-app-ddns" ],
+				"uci": { "upnpd": true }
+			}
+		},
+
+		"admin/internet/wolan": {
+			"title": "WoLAN",
+			"order": 80,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/wolan"
+			},
+			"depends": {
+				"acl": [ "luci-app-wolan" ],
+				"fs": { "/usr/bin/wolan_request": "executable" },
+				"uci": { "wolan": true }
+			}
+		},
+
+	"admin/wifi": {
+		"title": "WiFi",
+		"order": 40,
+		"action": {
+			"type": "firstchild",
+			"recurse": true
+		}
+	},
+
+		"admin/wifi/general": {
+			"title": "General",
+			"order": 10,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/wifi_general"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-wifi-general" ],
+				"uci": { "wireless": { "@wifi-device": true } }
+			}
+		},
+
+		"admin/wifi/psm": {
+			"title": "Power Saving Mode",
+			"order": 20,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/psm"
+			},
+			"depends": {
+				"acl": [ "luci-app-psm" ],
+				"uci": { "psm_scheduler": true }
+			}
+		},
+
+		"admin/wifi/wps": {
+			"title": "WPS",
+			"order": 30,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/wps"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-wps" ]
+			}
+		},
+
+		"admin/wifi/mac_filter": {
+			"title": "MAC Filter",
+			"order": 40,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/mac_filter"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-mac-filter" ]
+			}
+		},
+
+		"admin/wifi/settings": {
+			"title": "Settings",
+			"order": 50,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/wifi_settings"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-wifi" ],
+				"uci": { "wireless": true}
+			}
+		},
+
+		"admin/wifi/analyzer": {
+			"title": "Analyzer",
+			"order": 60,
+			"action": {
+				"type": "firstchild",
+				"recurse": true
+			}
+		},
+
+			"admin/wifi/analyzer/analyzer_2_4": {
+				"title": "Analyzer 2.4GHz",
+				"order": 10,
+				"action": {
+					"type": "view",
+					"path": "sercomm-admin/analyzer_2_4"
+				},
+				"depends": {
+					"acl": [ "luci-mod-sercomm-wifi" ],
+					"uci": { "wireless": true}
+				}
+			},
+
+			"admin/wifi/analyzer/analyzer_5": {
+				"title": "Analyzer 5GHz",
+				"order": 20,
+				"action": {
+					"type": "view",
+					"path": "sercomm-admin/analyzer_5"
+				},
+				"depends": {
+					"acl": [ "luci-mod-sercomm-wifi" ],
+					"uci": { "wireless": true}
+				}
+			},
+
+		"admin/wifi/client_monitoring": {
+			"title": "Client Monitoring",
+			"order": 70,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/client_monitoring"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-wifi" ],
+				"uci": { "wireless": true}
+			}
+		},
+
+	"admin/settings": {
+		"title": "Settings",
+		"order": 50,
+		"action": {
+			"type": "firstchild",
+			"recurse": true
+		}
+	},
+
+		"admin/settings/firmware": {
+			"title": "Firmware Update",
+			"order": 20,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/firmware_update"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-flash" ]
+			}
+		},
+
+		"admin/settings/energy": {
+			"title": "Energy Settings",
+			"order": 30,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/energy_settings"
+			},
+			"depends": {
+				"uci": { "system": true },
+				"acl": [ "luci-mod-sercomm-energy" ]
+			}
+		},
+
+		"admin/settings/config": {
+			"title": "Configuration",
+			"order": 40,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/configuration"
+			},
+			"depends": {
+				"acl": [ "luci-mod-system-flash" ]
+			}
+		},
+
+		"admin/settings/lan": {
+			"title": "LAN",
+			"order": 50,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/lan"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-lan", "luci-mod-network-dhcp" ],
+				"uci": { "dhcp": true }
+			}
+		},
+
+		"admin/settings/ntp": {
+			"title": "Internet Time",
+			"order": 70,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/ntpc"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-ntpc" ],
+				"uci": {
+					"ntpclient":  true,
+					"system": true
+				}
+			}
+		},
+
+		"admin/settings/tr069": {
+			"title": "TR-069",
+			"order": 80,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/tr069"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-tr069" ],
+				"uci": { "tr069":  true }
+			}
+		},
+
+		"admin/settings/wan": {
+			"title": "WAN",
+			"order": 120,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/wan"
+			},
+			"depends": {
+				"acl": [ "luci-mod-network-config" ],
+				"uci": { "network": true }
+			}
+		},
+
+        "admin/settings/ipv6": {
+            "title": "Local IPv6",
+            "order": 120,
+            "action": {
+                    "type": "view",
+                    "path": "sercomm-admin/ipv6"
+            },
+            "depends": {
+			"acl": [ "luci-mod-network-config" ],
+			"uci": { "dhcp": true }
+            }
+        },
+
+		"admin/settings/static_routing": {
+			"title": "Static Routing",
+			"order": 130,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/static_routing"
+			},
+			"depends": {
+				"acl": [ "luci-mod-network-config" ]
+			}
+		},
+
+		"admin/settings/policy_routing": {
+			"title": "Policy Routing",
+			"order": 140,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/policy_routing"
+			},
+			"depends": {
+				"acl": [ "luci-mod-network-config" ]
+			}
+		},
+
+		"admin/settings/content_sharing": {
+			"title": "Content Sharing",
+			"order": 150,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/content-sharing"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-content-sharing" ]
+			}
+		},
+
+			"admin/settings/content_sharing/dlna": {
+				"title": "DLNA",
+				"order": 10,
+				"action": {
+					"type": "view",
+					"path": "sercomm-admin/dlna"
+				},
+				"depends": {
+					"acl": [ "luci-mod-sercomm-dlna" ]
+				}
+			},
+
+			"admin/settings/content_sharing/ftp": {
+				"title": "FTP",
+				"order": 20,
+				"action": {
+					"type": "view",
+					"path": "sercomm-admin/ftp"
+				},
+				"depends": {
+					"acl": [ "luci-mod-sercomm-ftp", "luci-app-password-manager" ],
+					"uci": { "vsftpd": true }
+				}
+			},
+
+			"admin/settings/content_sharing/samba": {
+				"title": "Samba",
+				"order": 30,
+				"action": {
+					"type": "view",
+					"path": "sercomm-admin/network-share-samba"
+				},
+				"depends": {
+					"acl": [ "luci-mod-sercomm-samba" ]
+				}
+			},
+
+			"admin/settings/printer_sharing": {
+				"title": "Printer Sharing",
+				"order": 160,
+				"action": {
+					"type": "view",
+					"path": "sercomm-admin/printer-sharing"
+				},
+				"depends": {
+					"acl": [ "luci-mod-sercomm-printer-sharing" ]
+				}
+			},
+
+		"admin/settings/mobile": {
+			"title": "Mobile",
+			"order": 170,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/mobile"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-mobile" ]
+			}
+		},
+
+		"admin/settings/usb": {
+			"title": "USB",
+			"order": 180,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/usb"
+			},
+			"depends": {
+				"acl": [ "luci-mod-settings-usb-config" ],
+				"uci": { "network": true }
+			}
+		},
+
+		"admin/settings/dropbear": {
+			"title": "SSH Access",
+			"order": 190,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/dropbear"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-ssh" ],
+				"fs": { "/usr/sbin/dropbear": "executable" }
+			}
+		},
+
+		"admin/settings/sshkeys": {
+			"title": "SSH-Keys",
+			"order": 200,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/sshkeys"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-ssh" ],
+				"fs": { "/usr/sbin/dropbear": "executable" }
+			}
+		},
+
+		"admin/settings/access-control": {
+                "title": "Access control",
+                "order": 70,
+                "action": {
+                        "type": "view",
+                        "path": "sercomm-admin/access-control"
+                },
+                "depends": {
+                        "acl": [ "luci-mod-sercomm-remote-control" ],
+                        "uci": { "firewall":  true}
+                }
+        },
+
+	"admin/status": {
+		"title": "Status & Support",
+		"order": 60,
+		"action": {
+			"type": "firstchild"
+		}
+	},
+
+		"admin/status/status": {
+			"title": "Status",
+			"order": 10,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/status"
+			},
+			"depends": {
+				"acl": [ "luci-mod-status-index" ]
+			}
+		},
+
+			"admin/status/status/wan_status": {
+				"title": "WAN Status",
+				"order": 30,
+				"action": {
+					"type": "view",
+					"path": "sercomm-admin/wan_status"
+				},
+				"depends": {
+					"acl": [ "luci-mod-sercomm-wan-status", "luci-mod-network-device" ],
+					"uci": { "network": true },
+					"fs": {"/usr/sbin/get_stats": "executable" }
+				}
+			},
+
+			"admin/status/status/lan_status": {
+				"title": "LAN Status",
+				"order": 40,
+				"action": {
+					"type": "view",
+					"path": "sercomm-admin/lan_status"
+				},
+				"depends": {
+					"acl": [ "luci-mod-sercomm-lan-status" ]
+				}
+			},
+
+			"admin/status/status/routing": {
+				"title": "Routing",
+				"order": 50,
+				"action": {
+					"type": "view",
+					"path": "sercomm-admin/routing"
+				},
+				"depends": {
+					"acl": [ "luci-mod-sercomm-routing" ]
+				}
+			},
+
+			"admin/status/status/ethernet_status": {
+				"title": "Ethernet Status",
+				"order": 60,
+				"action": {
+					"type": "view",
+					"path": "sercomm-admin/ethernet_status"
+				},
+				"depends": {
+					"acl": [ "luci-mod-sercomm-ethernet-status" ],
+					"uci": { "scinfo": true }
+				}
+			},
+
+			"admin/status/status/mobile_status": {
+				"title": "Mobile Status",
+				"order": 70,
+				"action": {
+					"type": "view",
+					"path": "sercomm-admin/mobile_status"
+				},
+				"depends": {
+					"acl": [ "luci-mod-sercomm-mobile-status" ]
+				}
+			},
+
+		"admin/status/customer_support": {
+			"title": "Customer Support",
+				"order": 20,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/customer_support"
+			},
+			"depends": {
+				"acl": [ ],
+				"uci": { }
+			}
+		},
+
+		"admin/status/diagnostics": {
+			"title": "Diagnostic Utility",
+			"order": 30,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/diagnostics"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-diagnostics" ]
+			}
+		},
+
+		"admin/status/eventlog": {
+			"title": "Event Log",
+			"order": 40,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/event_log"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-logs" ]
+			}
+		},
+
+		"admin/status/restart": {
+			"title": "Restart",
+			"order": 50,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/restart"
+			},
+			"depends": {
+				"acl": [ "luci-mod-system-reboot", "luci-mod-sercomm-reconnect" ]
+			}
+		},
+
+		"admin/status/nat": {
+			"title": "NAT Mapping Table",
+			"order": 60,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/nat"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-nat" ]
+			}
+		},
+
+		"admin/status/port_mirroring": {
+			"title": "Port Mirroring",
+			"order": 80,
+			"action": {
+				 "type": "view",
+				"path": "sercomm-admin/port_mirroring"
+			},
+			"depends": {
+				"acl": [ "luci-mod-status-port-mirroring" ]
+			}
+		},
+
+		"admin/status/about": {
+			"title": "About",
+			"order": 90,
+			"action": {
+				"type": "view",
+				"path": "sercomm-admin/about"
+			},
+			"depends": {
+				"acl": [ "luci-mod-sercomm-about" ]
+			}
+		},
+
+	"admin/logout": {
+		"action": {
+			"type": "call",
+			"module": "luci.controller.admin.index",
+			"function": "action_logout"
+		},
+		"depends": {
+			"acl": [ "luci-base" ]
+		}
+	}
+}

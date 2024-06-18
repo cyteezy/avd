@@ -1,0 +1,696 @@
+{
+    "luci-mod-sercomm-menu-vodacom": {
+        "description": "Grant access to menu-vodacom",
+        "read": {
+            "file": {
+                "/usr/local/cgi-bin/wpakeyCheck.sh": [ "exec" ]
+            }
+        }
+    },
+
+    "luci-mod-sercomm-tr069": {
+        "description": "Grant access to TR-069 configuration",
+        "read": {
+            "uci": [ "tr069" ]
+        },
+        "write": {
+            "uci": [ "tr069" ]
+        }
+    },
+
+    "luci-mod-sercomm-printer-sharing": {
+        "description": "Grant access to printer sharing configuration",
+        "read": {
+            "uci": [ "cups" ]
+        },
+        "write": {
+            "uci": [ "cups" ]
+        }
+    },
+
+    "luci-mod-sercomm-lan-status": {
+	"description": "Grant access to Lan Status",
+	"read": {
+	    "file": {
+		"/usr/local/cgi-bin/net_arp.sh": [ "exec" ]
+	    },
+	    "ubus": {
+		"luci-rpc": [ "getNetworkDevices" ]
+	    },
+	    "uci": [ "hosts" ]
+	}
+    },
+
+    "luci-mod-sercomm-ethernet-status": {
+        "description": "Grant access to Ethernet Status",
+        "read": {
+            "uci": [ "scinfo" ]
+        }
+    },
+
+    "luci-mod-sercomm-routing": {
+        "description": "Grant access to Status->Routing",
+        "read": {
+            "file": {
+                "/usr/local/cgi-bin/read_routing_table.sh": [ "exec" ]
+            }
+        }
+    },
+
+    "luci-mod-sercomm-remote-control": {
+       "description": "Grant access to remote control",
+       "read": {
+           "uci": [ "firewall", "network" ]
+       },
+       "write": {
+           "uci": [ "firewall" ]
+       }
+   },
+
+    "luci-mod-sercomm-about": {
+       "description": "Grant access to about",
+       "read": {
+           "uci": [ "hostinfo" ]
+       }
+   },
+
+    "luci-mod-sercomm-nat": {
+       "description": "Grant access to NAT Mapping Table",
+       "read": {
+           "uci": [ "hosts" ],
+           "file": {
+               "/usr/bin/nat_request": ["exec"]
+       }
+    }
+   },
+
+   "luci-mod-sercomm-ntpc": {
+       "description": "Grant access to time synchronisation",
+       "read": {
+           "uci": [ "ntpclient", "system" ]
+       },
+       "write": {
+           "uci": [ "ntpclient", "system" ],
+           "ubus": { "uci": ["set"] }
+       }
+   },
+
+   "luci-mod-sercomm-mac-filter": {
+        "description": "Grant access to mac filter",
+        "read": {
+            "uci": [ "wireless", "hosts" ]
+        },
+        "write": {
+            "uci": [ "wireless" ]
+        }
+    },
+
+    "luci-mod-sercomm-wifi-general": {
+        "description": "Grant access to network configuration",
+        "read": {
+            "cgi-io": [ "exec" ],
+            "file": {
+                "/etc/iproute2/rt_tables": [ "read" ],
+                "/proc/sys/net/ipv6/conf/*/mtu": [ "read" ],
+                "/proc/sys/net/ipv6/conf/*/hop_limit": [ "read" ],
+                "/usr/libexec/luci-peeraddr": [ "exec" ],
+                "/usr/libexec/rpcd/iwinfo_cutted": [ "exec" ]
+            },
+            "ubus": {
+                "file": [ "exec" ],
+                "iwinfo": [ "assoclist", "countrylist", "freqlist", "txpowerlist" ],
+                "luci": [ "getSwconfigFeatures", "getSwconfigPortState" ]
+            },
+            "uci": [ "dhcp", "firewall", "network", "wireless", "wifiscan24g", "wifiscan5g" ]
+        },
+        "write": {
+            "cgi-io": [ "exec" ],
+            "file": {
+                "/sbin/ifup": [ "exec" ],
+                "/sbin/ifdown": [ "exec" ],
+                "/sbin/wifi": [ "exec" ],
+                "/etc/init.d/hal_wifi reload": ["exec"]
+            },
+            "ubus": {
+                "file": [ "exec" ],
+                "hostapd.*": [ "del_client" ],
+                "iwinfo": [ "scan" ]
+            },
+            "uci": [ "dhcp", "firewall", "network", "wireless" ]
+        }
+    },
+
+	"luci-app-ddns": {
+		"description": "Grant access to upnp procedures",
+		"read": {
+			"ubus": {
+				"luci.upnp": [ "get_status" ],
+				"luci": [ "setInitAction" ]
+			},
+			"uci": [ "upnpd" ]
+		},
+		"write": {
+			"ubus": {
+				"luci.upnp": [ "delete_rule" ]
+			},
+			"uci": [ "upnpd" ]
+		}
+	},
+
+	"luci-app-wolan": {
+		"description": "Grant access to WoLAN",
+		"read": {
+			"file": {
+				"/usr/bin/wolan_request": [ "exec" ]
+		},
+			"uci": [ "wolan" ]
+		},
+		"write": {
+			"uci": [ "wolan" ]
+		}
+	},
+
+	"luci-app-psm": {
+                "description": "Grant access to Power Saving Mode",
+                "read": {
+                        "ubus": {
+                                "network.interface.ppp_1_2": [ "status" ]
+                        },
+                        "uci": [ "psm_scheduler" ]
+                },
+                "write": {
+                        "uci": [ "psm_scheduler" ]
+                }
+        },
+
+	 "luci-mod-sercomm-wps": {
+                "description": "Grant access to WPS",
+                "read": {
+                        "uci": [ "wireless" ],
+                        "file": {
+                            "/usr/sbin/hal_cltc": [ "exec" ]
+                        }
+                },
+                "write": {
+                        "uci": [ "wireless" ]
+                }
+        },
+
+    "luci-app-firewall": {
+        "description": "Grant access to firewall configuration",
+        "read": {
+            "file": {
+                "/usr/local/cgi-bin/read_firewall_user.sh": [ "exec" ]
+            },
+            "ubus": {
+                "file": [ "read" ],
+                "luci": [ "getConntrackHelpers" ]
+            },
+            "uci": [ "firewall" ]
+        },
+        "write": {
+            "file": {
+                "/usr/local/cgi-bin/write_firewall_user.sh": [ "exec" ]
+            },
+            "ubus": {
+                "file": [ "write" ]
+            },
+            "uci": [ "firewall" ]
+        }
+    },
+
+    "luci-mod-sercomm-overview": {
+        "description": "Grant access to main status display",
+        "read": {
+            "file": {
+                "/usr/local/cgi-bin/usbmount.sh": [ "exec" ],
+                "/usr/local/cgi-bin/does_ttyUSB0_exist.sh": [ "exec" ],
+                "/usr/bin/lsusb": [ "exec" ]
+            },
+            "ubus": {
+                "network.interface.ppp_3_1": ["status"],
+                "dio": ["detect"],
+                "cml": ["get"]
+            },
+            "uci": [ "wifiassoc", "hosts", "fstab", "scinfo", "network", "hosts_overview", "wireless" ]
+        },
+        "write": {
+            "uci": [ "dhcp", "hosts", "hosts_overview" ]
+        }
+    },
+
+    "luci-mod-sercomm-diagnostics": {
+        "description": "Grant access to network diagnostic tools",
+        "read": {
+            "cgi-io": [ "exec", "backup", "download" ],
+            "file": {
+                "/bin/ping": [ "exec" ],
+                "/bin/ping6": [ "exec", "list" ],
+                "/bin/traceroute": [ "exec" ],
+                "/bin/traceroute6": [ "exec", "list" ],
+                "/usr/bin/nslookup": [ "exec" ],
+                "/usr/bin/ping": [ "exec" ],
+                "/usr/bin/ping6": [ "exec", "list" ],
+                "/usr/bin/traceroute": [ "exec" ],
+                "/usr/bin/traceroute6": [ "exec", "list" ],
+                "/tmp/pingresult.txt": [ "read" ]
+            },
+            "ubus": {
+                "file": [ "exec", "read", "stat" ]
+            },
+            "uci": [ "luci" ]
+        },
+        "write": {
+            "cgi-io": [ "exec" ],
+            "file": {
+                "/tmp/pingresult.txt": [ "write" ]
+            },
+            "ubus": {
+                "file": [ "exec", "write", "stat" ]
+            }
+        }
+    },
+
+    "luci-mod-sercomm-logs": {
+        "description": "Grant access to system logs",
+        "read": {
+            "cgi-io": [ "exec", "backup", "download" ],
+            "file": {
+                "/bin/dmesg -r": [ "exec" ],
+                "/sbin/logread": [ "stat" ],
+                "/sbin/logread *": [ "exec" ],
+                "/usr/sbin/logread": [ "stat" ],
+                "/usr/sbin/logread *": [ "exec" ],
+                "/tmp/eventlog.txt": [ "read" ]
+            },
+            "ubus": {
+                "file": [ "exec", "read", "stat" ]
+            }
+        },
+        "write": {
+            "cgi-io": [ "exec" ],
+            "file": {
+                "/tmp/eventlog.txt": [ "write" ]
+            },
+            "ubus": {
+                "file": [ "exec", "write", "stat" ]
+            }
+        }
+    },
+	"luci-mod-sercomm-mobile": {
+		"description": "Grant access to mobile",
+		"read": {
+			"uci": [ "network" ]
+		},
+		"write": {
+			"uci": [ "network" ]
+		}
+	},
+
+    "luci-mod-sercomm-ftp": {
+        "description": "Grant access to FTP",
+        "read": {
+            "uci": [ "vsftpd" ]
+        },
+        "write": {
+            "uci": [ "vsftpd" ]
+        }
+    },
+
+	"luci-mod-sercomm-samba": {
+		"description": "Grant access to Samba",
+		"read": {
+			"uci": [ "samba", "vsftpd" ]
+		},
+		"write": {
+			"uci": [ "samba" ]
+		}
+	},
+	
+    "luci-mod-status-port-mirroring": {
+        "description": "Grant access to port mirroring configuration",
+        "read": {
+             "file": {
+                "/usr/local/cgi-bin/read_firewall_user.sh": [ "exec" ]
+            }
+        },
+        "write": {
+             "file": {
+                "/lib/luci-mod-port-mirroring/port-mirroring.sh": [ "exec" ]
+             }
+        }
+    },
+
+    "luci-mod-sercomm-parental-control": {
+	"description": "Grant access to parental control",
+	"read": {
+	    "uci": [ "firewall", "hosts" ]
+	},
+	"write": {
+	    "uci": [ "firewall" ]
+	}
+    },
+
+    "luci-mod-sercomm-iptables": {
+        "description": "Grant access to iptables",
+        "read": {
+            "uci": [ "iptables" ]
+        },                          
+        "write": {                                  
+            "uci": [ "iptables" ]
+        }            
+    }, 
+
+    "luci-mod-sercomm-mobile-status": {
+        "description": "Grant access to mobile status",
+        "read": {
+            "ubus": {
+                "file": [ "list", "read" ],
+                "network.interface.ppp_3_1": ["status"],
+                "network.device": ["status"],
+                "uci": [ "get" ],
+                "cml": ["get"]
+            },
+            "uci": [ "network" ]
+        }
+    },
+
+    "luci-mod-settings-usb-config": {
+        "description": "Grant access to usb devices",
+        "read": {
+            "file": {
+                "/usr/local/cgi-bin/usbmount.sh": [ "exec" ]
+            },
+            "ubus": {
+                "dio": ["detect"]
+            },
+            "uci": [ "fstab", "network" ]
+        },
+        "write": {
+            "uci": [ "fstab", "network" ]
+        }
+    },
+
+	"luci-mod-sercomm-ddns": {
+		"description": "Grant access to ddns",
+		"read": {
+			"uci": [ "ddns", "network" ]
+		},
+		"write": {
+			"uci": [ "ddns" ]
+		}
+	},
+
+	"luci-mod-sercomm-mobile-internet": {
+		"description": "Grant access to mobile configuration",
+		"read": {
+			"uci": [ "mobile" ]
+		},
+		"write": {
+			"uci": [ "mobile" ]
+		}
+	},
+
+
+	"luci-mod-sercomm-reconnect": {
+		"description": "Grant access to network reload",
+		"write": {
+			"file": {
+				"/etc/init.d/network restart": [ "exec" ]
+			}
+		},
+		"read": {
+			"file": {
+				"/usr/bin/lua /lib/functions/lua/default_gateway.lua": [ "exec" ]
+			},
+			"uci": [ "scinfo" ],
+			"ubus": {
+				"network.interface": [ "dump" ],
+			}
+		}
+	},
+    "luci-mod-sercomm-content-sharing": {
+        "description": "Grant access to global content sharing",
+        "read": {
+            "uci": [ "minidlna", "samba", "vsftpd" ]
+        },
+        "write": {
+            "uci": [ "minidlna", "samba", "vsftpd" ]
+        }
+    },
+
+    "luci-mod-sercomm-dlna": {
+        "description": "Grant access to dlna service configuration",
+        "read": {
+            "uci": [ "minidlna", "vsftpd" ]
+        },
+        "write": {
+            "uci": [ "minidlna" ]
+        }
+    },
+
+    "luci-mod-sercomm-mapping": {
+        "description": "Grant access to mapping",
+        "read": {
+            "file": {
+                "/usr/bin/lua /lib/functions/lua/default_gateway.lua": [ "exec" ]
+            },
+            "uci": [ "network" ]
+        }
+    },
+	"luci-mod-sercomm-network-config": {
+		"description": "Grant access to network configuration",
+		"read": {
+			"cgi-io": [ "exec" ],
+			"file": {
+				"/etc/iproute2/rt_tables": [ "read" ],
+				"/proc/sys/net/ipv6/conf/*/mtu": [ "read" ],
+				"/proc/sys/net/ipv6/conf/*/hop_limit": [ "read" ],
+				"/usr/libexec/luci-peeraddr": [ "exec" ],
+				"/usr/libexec/rpcd/iwinfo_cutted": [ "exec" ],
+				"/usr/lib/opkg/info/netifd.control": [ "read" ]
+			},
+			"ubus": {
+				"file": [ "exec" ],
+				"iwinfo": [ "assoclist", "countrylist", "freqlist", "txpowerlist" ],
+				"luci": [ "getSwconfigFeatures", "getSwconfigPortState" ]
+			},
+			"uci": [ "dhcp", "firewall", "network", "wireless", "wifiassoc", "wifiscan24g", "wifiscan5g" ]
+		},
+		"write": {
+			"cgi-io": [ "exec" ],
+			"file": {
+				"/sbin/ifup": [ "exec" ],
+				"/sbin/ifdown": [ "exec" ],
+				"/sbin/wifi": [ "exec" ],
+				"/etc/init.d/hal_wifi reload": ["exec"]
+			},
+			"ubus": {
+				"file": [ "exec" ],
+				"hostapd.*": [ "del_client" ],
+				"iwinfo": [ "scan" ]
+			},
+			"uci": [ "dhcp", "firewall", "network", "wireless" ]
+		}
+	},
+
+	"luci-mod-sercomm-wifi": {
+		"description": "Grant access to network configuration",
+		"read": {
+			"cgi-io": [ "exec" ],
+			"file": {
+				"/etc/iproute2/rt_tables": [ "read" ],
+				"/proc/sys/net/ipv6/conf/*/mtu": [ "read" ],
+				"/proc/sys/net/ipv6/conf/*/hop_limit": [ "read" ],
+				"/usr/libexec/luci-peeraddr": [ "exec" ],
+				"/usr/libexec/rpcd/iwinfo_cutted": [ "exec" ],
+				"/usr/lib/opkg/info/netifd.control": [ "read" ]
+			},
+			"ubus": {
+				"file": [ "exec" ],
+				"iwinfo": [ "assoclist", "countrylist", "freqlist", "txpowerlist" ],
+				"luci": [ "getSwconfigFeatures", "getSwconfigPortState" ]
+			},
+			"uci": [ "dhcp", "firewall", "network", "wireless", "wifiassoc", "wifiscan24g", "wifiscan5g" ]
+		},
+		"write": {
+			"cgi-io": [ "exec" ],
+			"file": {
+				"/sbin/ifup": [ "exec" ],
+				"/sbin/ifdown": [ "exec" ],
+				"/sbin/wifi": [ "exec" ],
+				"/etc/init.d/hal_wifi reload": ["exec"]
+			},
+			"ubus": {
+				"file": [ "exec" ],
+				"hostapd.*": [ "del_client" ],
+				"iwinfo": [ "scan" ]
+			},
+			"uci": [ "dhcp", "firewall", "network", "wireless" ]
+		}
+	},
+
+	"luci-mod-sercomm-lan": {
+		"description": "Grant access to network configuration",
+		"read": {
+			"cgi-io": [ "exec" ],
+			"file": {
+				"/etc/iproute2/rt_tables": [ "read" ],
+				"/proc/sys/net/ipv6/conf/*/mtu": [ "read" ],
+				"/proc/sys/net/ipv6/conf/*/hop_limit": [ "read" ],
+				"/usr/libexec/luci-peeraddr": [ "exec" ],
+				"/usr/libexec/rpcd/iwinfo_cutted": [ "exec" ],
+				"/usr/lib/opkg/info/netifd.control": [ "read" ],
+                "/etc/lan_host_config.sh": [ "exec" ]
+			},
+			"ubus": {
+				"file": [ "exec" ],
+				"iwinfo": [ "assoclist", "countrylist", "freqlist", "txpowerlist" ],
+				"luci": [ "getSwconfigFeatures", "getSwconfigPortState" ]
+			},
+			"uci": [ "dhcp", "firewall", "network", "wireless", "wifiassoc", "wifiscan24g", "wifiscan5g" ]
+		},
+		"write": {
+			"cgi-io": [ "exec" ],
+			"file": {
+				"/sbin/ifup": [ "exec" ],
+				"/sbin/ifdown": [ "exec" ],
+				"/sbin/wifi": [ "exec" ],
+				"/etc/init.d/hal_wifi reload": ["exec"]
+			},
+			"ubus": {
+				"file": [ "exec" ],
+				"hostapd.*": [ "del_client" ],
+				"iwinfo": [ "scan" ]
+			},
+			"uci": [ "dhcp", "firewall", "network", "wireless" ]
+		}
+	},
+
+	"luci-mod-sercomm-wan-status": {
+		"description": "Grant access to network configuration",
+		"read": {
+			"cgi-io": [ "exec" ],
+			"file": {
+				"/etc/iproute2/rt_tables": [ "read" ],
+				"/proc/sys/net/ipv6/conf/*/mtu": [ "read" ],
+				"/proc/sys/net/ipv6/conf/*/hop_limit": [ "read" ],
+				"/usr/libexec/luci-peeraddr": [ "exec" ],
+				"/usr/libexec/rpcd/iwinfo_cutted": [ "exec" ],
+				"/usr/lib/opkg/info/netifd.control": [ "read" ],
+				"/usr/sbin/get_stats": [ "exec" ]
+			},
+			"ubus": {
+				"file": [ "exec" ],
+				"iwinfo": [ "assoclist", "countrylist", "freqlist", "txpowerlist" ],
+				"luci": [ "getSwconfigFeatures", "getSwconfigPortState" ],
+				"dio": [ "get" ]
+			},
+			"uci": [ "dhcp", "firewall", "network", "wireless", "wifiassoc", "wifiscan24g", "wifiscan5g", "hwnat_stats" ]
+		},
+		"write": {
+			"cgi-io": [ "exec" ],
+			"file": {
+				"/sbin/ifup": [ "exec" ],
+				"/sbin/ifdown": [ "exec" ],
+				"/sbin/wifi": [ "exec" ],
+				"/etc/init.d/hal_wifi reload": ["exec"]
+			},
+			"ubus": {
+				"file": [ "exec" ],
+				"hostapd.*": [ "del_client" ],
+				"iwinfo": [ "scan" ]
+			},
+			"uci": [ "dhcp", "firewall", "network", "wireless" ]
+		}
+	},
+
+	"luci-mod-sercomm-flash": {
+		"description": "Grant access to flash operations",
+		"read": {
+			"cgi-io": [ "backup", "download" ],
+			"file": {
+                "/run/firmware_check": [ "read" ],
+                "/run/firmware.img": [ "read" ],
+				"/tmp/configEncryption.rom": [ "read" ],
+				"/usr/local/cgi-bin/backup.sh": [ "exec" ]
+			},
+			"ubus": {
+				"file": [ "exec", "read", "stat" ]
+			}
+		},
+		"write": {
+			"cgi-io": [ "upload" ],
+			"file": {
+				"/sbin/reboot": [ "exec" ],
+				"/usr/local/cgi-bin/show_disk_space.sh": [ "exec" ],
+				"/tmp/configEncryption.rom": [ "write" ],
+				"/usr/local/cgi-bin/backup.sh": [ "exec" ],
+                "/usr/sbin/hal_cltc ETH_UPG": [ "exec" ],
+                "/usr/sbin/hal_cltc ETH_UPG_VERIFY": [ "exec" ],
+                "/usr/sbin/hal_cltc ETH_RESET_TO_DEFAULT": [ "exec" ],
+                "/run/firmware.img": [ "write" ],
+                "/run/firmware_check": [ "write" ],
+                "/run/upgrade_fail": [ "write" ],
+                "/run/upgrade_success": [ "write" ]
+
+			},
+			"ubus": {
+				"file": [ "exec", "remove", "write" ]
+			}
+		}
+	},
+	"luci-mod-sercomm-energy": {
+			"description": "Grant access to energy settings",
+			"read": {
+				"uci": [ "energy_settings" ]
+			},
+			"write": {
+				"uci": [ "energy_settings" ]
+			}
+	},
+	"luci-mod-sercomm-ssh": {
+		"description": "Grant access to SSH configuration",
+		"read": {
+			"file": {
+				"/usr/local/cgi-bin/read_authorized_keys.sh": [ "exec" ]
+			},
+			"ubus": {
+				"file": [ "read" ]
+			},
+			"uci": [ "dropbear" ]
+		},
+		"write": {
+			"file": {
+				"/usr/local/cgi-bin/write_authorized_keys.sh": [ "exec" ]
+			},
+			"ubus": {
+				"file": [ "write" ],
+				"luci": [ "setInitAction", "setLocaltime" ]
+			},
+			"uci": [ "dropbear" ]
+		}
+	},
+	"luci-mod-status-index": {
+		"description": "Grant access to status overview page",
+		"read": {
+			"file": {
+				"/usr/libexec/rpcd/iwinfo_cutted": [ "exec" ],
+				"/etc/wifi_drivers_ver": [ "exec" ],
+				"/usr/local/cgi-bin/wget_minidlna.sh": [ "exec" ]
+			},
+			"ubus": {
+				"uci": ["get"],
+				"network.interface.lan": ["status"],
+				"luci.ddns": ["get_services_status"],
+				"luci.upnp": ["get_status", "delete_rule"],
+				"luci-rpc": ["getNetworkDevices"],
+				"system": ["info"],
+				"System.Resources": ["Get"],
+				"network.interface.wanip*": ["status"],
+				"network.interface.ppp*": ["status"]
+			},
+			"uci": [ "scinfo", "ddns", "minidlna", "wireless"]
+		}
+	}
+}

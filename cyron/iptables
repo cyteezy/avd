@@ -1,0 +1,33 @@
+#!/bin/sh /etc/rc.common
+
+START=82
+USE_PROCD=1
+
+start_service() {
+	config_load 'iptables'
+
+	config_foreach handle_rule rule
+
+}
+
+handle_rule() {
+	local src proto dest_port target chain
+	
+    config_get src "$1" src
+    config_get proto "$1" proto
+    config_get dest "$1" dest
+    config_get target "$1" target
+    config_get chain "$1" chain
+
+    echo "src=$src proto=$proto dest=$dest target=$target chain=$chain"
+
+    iptables -t filter -D $chain -p $proto -d $dest -s $src -j $target 
+}
+stop_service() {
+    stop
+}
+
+reload_service() {
+    stop_service
+    start_sertice
+}
